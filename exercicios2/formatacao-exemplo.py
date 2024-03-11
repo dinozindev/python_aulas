@@ -27,3 +27,4 @@ tamanho = len(nome)
 maiusculas = nome.upper()
 minusculas = nome.lower()
 iniciais = nome.title()
+
