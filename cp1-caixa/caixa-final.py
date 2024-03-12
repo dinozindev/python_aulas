@@ -1,10 +1,10 @@
 
 # valores iniciais
-quantia = 1
+quantia = 0
 ced100 = 3
-ced50 = 0
+ced50 = 3
 ced20 = 5
-ced10 = 0
+ced10 = 3
 problema = False
 
 # Valor total de todas as cédulas disponíveis.
@@ -84,7 +84,7 @@ elif ced10 < quantia // 10:
 else:
     ced10 = 0
 
-# transformando em ints
+# transformando as cédulas em ints
 ced100 = int(ced100)
 ced50 = int(ced50)
 ced20 = int(ced20)
