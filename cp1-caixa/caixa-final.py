@@ -5,38 +5,41 @@ ced100 = 3
 ced50 = 0
 ced20 = 5
 ced10 = 0
+problema = False
 
 # Valor total de todas as cédulas disponíveis.
 vlrt = (ced100 * 100) + (ced50 * 50) + (ced20 * 20) + (ced10 * 10)
-print((ced100 * 100) + (ced50 * 50) + (ced20 * 20) + (ced10 * 10))
+print(f"Valor disponível no caixa eletrônico: R${vlrt:.2f}")
 
 # Chamada inicial da quantia.
 quantia = input("Digite uma quantia para saque: ")
 quantia = float(quantia)
 
+# Se uma das três condições for atendida, a variável problema é dada como true.
+if quantia > vlrt or quantia % 10 or (ced50 == 0 and ced10 == 0 and quantia % 20):
+    problema = True
 
-# Caso a quantia informada para saque seja maior que o valor disponível em cédulas, um novo valor será pedido. 
-while quantia > vlrt: 
-        print("Valor inválido. Insira um valor que esteja disponível no caixa eletrônico.")  
-        quantia = input("Digite uma quantia para saque: ")        
-        quantia = float(quantia)        
-           
-# Caso não haja cédulas de 50 e 10, apenas quantias de múltiplo 20 serão admitidas. 
-if ced50 == 0 and ced10 == 0:
-    while quantia % 20:
-        print("Valor inválido. Insira um valor múltiplo de 20.")
+# condicionais enquanto o problema persistir
+while problema == True:
+    # quantia para saque maior que o valor do caixa.
+    if quantia > vlrt:
+        print("Valor inválido. Insira uma quantia que esteja disponível no caixa eletrônico.")
         quantia = input("Digite uma quantia para saque: ")
         quantia = float(quantia)
-elif quantia > vlrt:
-    print("Valor inválido. Insira um valor que esteja disponível no caixa eletrônico.")    
-    quantia = input("Digite uma quantia para saque: ")        
-    quantia = float(quantia)   
-# Apenas valores múltiplos de 10 serão aceitos como valores válidos caso haja cédulas de 50 e 10
-else: 
-    while quantia % 10:
+    # quantia não é múltiplo de 10.
+    elif quantia % 10:
         print("Valor inválido. Insira um valor múltiplo de 10.")
         quantia = input("Digite uma quantia para saque: ")
         quantia = float(quantia)
+    # sem notas de 50 e 10, quantia não é múltiplo de 20.
+    elif ced50 == 0 and ced10 == 0 and quantia % 20:
+        print("Valor inválido. Caixa sem notas de 50 e 10. Insira um valor múltiplo de 20.")
+        quantia = input("Digite uma quantia para saque: ")
+        quantia = float(quantia)
+    # problema = false caso não haja mais erros. 
+    else:
+        problema = False   
+
 
 # Verificação cédulas de 100
 
@@ -88,7 +91,7 @@ ced20 = int(ced20)
 ced10 = int(ced10)
 
 print("Valor sacado: ")
-print(f"R$100,00 - {ced100} cédulas (R${ced100 * 100},00)")
-print(f"R$50,00 - {ced50} cédulas (R${ced50 * 50},00)")
-print(f"R$20,00 - {ced20} cédulas (R${ced20 * 20},00)")
-print(f"R$10,00 - {ced10} cédulas (R${ced10 * 10},00)")
+print(f"R$100,00: {ced100} cédulas (R${(ced100 * 100):.2f})")
+print(f"R$50,00: {ced50} cédulas (R${(ced50 * 50):.2f})")
+print(f"R$20,00: {ced20} cédulas (R${(ced20 * 20):.2f})")
+print(f"R$10,00: {ced10} cédulas (R${(ced10 * 10):.2f})")
