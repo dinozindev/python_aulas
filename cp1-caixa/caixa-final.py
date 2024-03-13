@@ -3,8 +3,8 @@
 quantia = 0
 ced100 = 3
 ced50 = 3
-ced20 = 5
-ced10 = 3
+ced20 = 3
+ced10 = 0
 problema = False
 
 # Valor total de todas as cédulas disponíveis.
