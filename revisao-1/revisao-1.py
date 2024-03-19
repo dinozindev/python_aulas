@@ -42,3 +42,13 @@ print(f"{nome:*^20}")
 print(f"{nome:%<10}")
 # completar com espaço em branco, para a esquerda, totalizando 10 caracteres.
 print(f"{nome:>10}")
+
+numero = input("Digite um numero: ")
+numero = float(numero)
+
+if numero % 2:
+    print("Numero impar")
+else:
+    print("Numero par")
+
+
