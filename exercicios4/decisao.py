@@ -84,19 +84,20 @@ lado.sort(reverse = True)
 if (lado[0] ** 2) == ((lado[1] ** 2) + (lado[2] ** 2)):
     print("Triângulo Retângulo")
 
+if triangulo == True:
 # verifica triangulo equilatero (todos os lados iguais)
 # verifica triangulo isosceles (dois lados iguais)    
-if (2 * lado[0]) == (lado[1] + lado[2]):
-    print('Triângulo Equilátero')
-elif lado[0] == lado[2]:
-    print('Triângulo Isósceles')
-elif lado[1] == lado[2]:
-    print('Triângulo Isósceles')
-elif lado[0] == lado[1]:
-    print("Triângulo Isósceles")
+    if (2 * lado[0]) == (lado[1] + lado[2]):
+        print('Triângulo Equilátero')
+    elif lado[0] == lado[2]:
+        print('Triângulo Isósceles')
+    elif lado[1] == lado[2]:
+        print('Triângulo Isósceles')
+    elif lado[0] == lado[1]:
+        print("Triângulo Isósceles")
+    # verifica triangulo escaleno (tres lados diferentes)
+    else:
+        print("Triângulo Escaleno")
 
-# verifica triangulo escaleno (tres lados diferentes)
-if (lado[0] != lado[1]) and (lado[1] != lado[2]) and (lado[2] != lado[0]) and triangulo == True:
-    print("Triângulo Escaleno")
 
 
