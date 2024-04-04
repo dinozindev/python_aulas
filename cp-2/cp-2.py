@@ -2,7 +2,7 @@
 # CP2 – Prof. MSc. Luiz W Tavares – 03 Abril 2024
 # RM554424 – Nome: Lucas Kenji Kikuchi
 
-# oq falta: verificar se o eleitor ja votou, verificar eleitor nao autorizado, finalizar votação quando todos os eleitores ja tiverem votado, imprimir relatorio
+# oq falta: finalizar votação quando todos os eleitores ja tiverem votado, imprimir relatorio
 
 eleitores = ['111', '222', '333', '444', '555']
 votouOuNao = [0, 0, 0, 0, 0]
@@ -22,7 +22,7 @@ while True:
         candidatos.append(candidatoAtual)
         votosCandidatos.append(0)
         print(f"Nome do Candidato...........:  Candidato {candidatoAtual} \n")
-        print(candidatos)
+        print(candidatos) #tirar
 
 # votação    
 while True:
@@ -53,5 +53,5 @@ while True:
             # atualiza a lista votouOuNao, indicando se o eleitor votou (1) ou não (0)
             votouOuNao[eleitores.index(eleitorAtual)]+=1 
 
-print(votouOuNao)
-print(votosCandidatos)
+print(votouOuNao) #tirar
+print(votosCandidatos) #tirar
