@@ -64,11 +64,13 @@ while True:
 print("=========================================")
 print(f"Total de eleitores: {len(eleitores)}")
 print(f"Total de votos ...: {votouOuNao.count(1)}")
+# votos dos candidatos
 print(f"\nCandidatos ........:")
 print(f"Votos:{(votosCandidatos[len(votosCandidatos) - 1]):>3} - 000 - Votos Nulo")
 for i in range(len(votosCandidatos) - 1):
         print(f"Votos:{votosCandidatos[i]:>3} -  {candidatos[i]} - Candidato {candidatos[i]}")
 print("\nEleitor:")
+# votou ou não
 for i in range(len(eleitores)):
     if votouOuNao[i] == 0:
         print(f"{eleitores[i]} - NÃO votou")
