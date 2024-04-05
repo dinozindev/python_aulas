@@ -18,8 +18,14 @@ while True:
     # se digitar fim, quebra o while
     if candidatoAtual.lower() == 'fim':
         break
+    # se o valor não for int, continua o while
+    elif not candidatoAtual.isdigit(): 
+        continue
+    # se o candidato já foi registrado, continua o while
+    elif candidatos.count(candidatoAtual) == 1:
+        continue
     # somente admite valores entre 10 e 99
-    if int(candidatoAtual) >= 10 and int(candidatoAtual) <= 99:
+    elif int(candidatoAtual) >= 10 and int(candidatoAtual) <= 99:
         candidatos.append(candidatoAtual)
         votosCandidatos.append(0)
         print(f"Nome do Candidato...........:  Candidato {candidatoAtual}")
@@ -33,7 +39,6 @@ while True:
     # verifica se o eleitor está presente na lista de eleitores
     if eleitores.count(eleitorAtual) == 0:
         print("\nEleitor não autorizado para votar")
-    
     elif eleitores.count(eleitorAtual) == 1:
         # verifica se o eleitor já votou
         if votouOuNao[eleitores.index(eleitorAtual)] == 1:
@@ -57,18 +62,18 @@ while True:
             votouOuNao[eleitores.index(eleitorAtual)]+=1
     # verificação para caso todos os eleitores já tiverem votado 
     if votouOuNao.count(1) == 5:
-        print(f"\nTodos os eleitores já votaram.\nFIM\n")
+        print(f"\nTodos os eleitores já votaram.\nFIM")
         break
 
 # relatório
-print("=========================================")
+print("\n=========================================")
 print(f"Total de eleitores: {len(eleitores)}")
 print(f"Total de votos ...: {votouOuNao.count(1)}")
 # votos dos candidatos
 print(f"\nCandidatos ........:")
-print(f"Votos:{(votosCandidatos[len(votosCandidatos) - 1]):>3} - 000 - Votos Nulo")
+print(f"Votos:{(votosCandidatos[len(votosCandidatos) - 1]):>4} - 000 - Votos Nulo")
 for i in range(len(votosCandidatos) - 1):
-        print(f"Votos:{votosCandidatos[i]:>3} -  {candidatos[i]} - Candidato {candidatos[i]}")
+        print(f"Votos:{votosCandidatos[i]:>4} -  {candidatos[i]} - Candidato {candidatos[i]}")
 print("\nEleitor:")
 # votou ou não
 for i in range(len(eleitores)):
