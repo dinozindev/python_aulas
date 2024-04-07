@@ -8,6 +8,8 @@ eleitores = ['111', '222', '333', '444', '555']
 votouOuNao = [0, 0, 0, 0, 0]
 # lista vazia de candidatos
 candidatos = []
+# lista vazia de nomes de candidatos
+candidatosNomes = []
 # ultimo voto é nulo (len(votosCandidatos) - 1)
 votosCandidatos = [0]
 
@@ -28,7 +30,8 @@ while True:
     elif int(candidatoAtual) >= 10 and int(candidatoAtual) <= 99:
         candidatos.append(candidatoAtual)
         votosCandidatos.append(0)
-        print(f"Nome do Candidato...........:  Candidato {candidatoAtual}")
+        candidatoAtualNome = input(f"Nome do Candidato...........:  ")
+        candidatosNomes.append(candidatoAtualNome)
 
 # votação    
 while True:
@@ -48,7 +51,7 @@ while True:
             print("Candidatos:")
             # percorre a lista de candidatos, imprimindo cada um
             for i in range(len(candidatos)):
-                print(f"{candidatos[i]} - Candidato {candidatos[i]}")
+                print(f"{candidatos[i]} - {candidatosNomes[i]}")
             voto = input("\nVoto - Número do Candidato:  ")
             # adiciona o voto ao candidato correspondente
             for i in range(len(candidatos)):
@@ -73,7 +76,7 @@ print(f"Total de votos ...: {votouOuNao.count(1)}")
 print(f"\nCandidatos ........:")
 print(f"Votos:{(votosCandidatos[len(votosCandidatos) - 1]):>4} - 000 - Votos Nulo")
 for i in range(len(votosCandidatos) - 1):
-        print(f"Votos:{votosCandidatos[i]:>4} -  {candidatos[i]} - Candidato {candidatos[i]}")
+        print(f"Votos:{votosCandidatos[i]:>4} -  {candidatos[i]} - {candidatosNomes[i]}")
 print("\nEleitor:")
 # votou ou não
 for i in range(len(eleitores)):
