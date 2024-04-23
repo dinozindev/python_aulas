@@ -22,7 +22,7 @@ while True:
         print(f"\nOperação de subtração: {n1} - {n2} = {n1 - n2}\n")
         break
     elif operacao == '*':
-        print(f"\nOperação de multiplicação: {n1} * {n2} = {(n1 * n2):.2f}\n")
+        print(f"\nOperação de multiplicação: {n1} * {n2} = {(n1 * n2)}\n")
         break
     elif operacao == '/':
         print(f"\nOperação de divisão: {n1} / {n2} = {(n1 / n2):.2f}\n")
@@ -61,7 +61,7 @@ else:
 # Exercício 3 - Verifique se um número é primo
 
 while True:
-    n1 = input("Número primo ou não: ")
+    n1 = input("\nNúmero primo ou não: ")
     if not n1.isdigit():
         print("Insira um valor válido.")
         continue
@@ -84,11 +84,20 @@ elif divisores > 2: # se o número for primo, ele terá apenas 2 divisores (ele 
 else: 
     print(f"{n1} é um número primo.")
 
-
 # Exercício 4 - Contando caracteres 
 dicionario = {} 
-frase = input("Escreva uma frase: ")
+frase = input("\nEscreva uma frase: ")
+# remove os espaços em branco da frase
+fraseSemEspacos = frase.replace(' ', '')
+# transforma a string em uma lista
+caracteresFrase = list(fraseSemEspacos)
 
-for i in range(len(list(frase))):
-    print(list(frase)[i])
+# para cada caractere na lista, se ela já estiver na lista, adiciona um em sua contagem. Caso contrário, adiciona ele na lista.
+for caractere in caracteresFrase:
+    if caractere in dicionario:
+        dicionario[caractere] += 1
+    else:
+        dicionario[caractere] = 1
+
+print(dicionario)
 
