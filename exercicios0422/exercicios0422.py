@@ -92,7 +92,7 @@ fraseSemEspacos = frase.replace(' ', '')
 # transforma a string em uma lista
 caracteresFrase = list(fraseSemEspacos)
 
-# para cada caractere na lista, se ela já estiver na lista, adiciona um em sua contagem. Caso contrário, adiciona ele na lista.
+# para cada caractere na lista, se ele já estiver no dicionário, adiciona um em sua contagem. Caso contrário, adiciona ele.
 for caractere in caracteresFrase:
     if caractere in dicionario:
         dicionario[caractere] += 1
