@@ -67,10 +67,10 @@ def cadastro_usuarios():
             print("Retornando ao menu inicial...")
             break
         elif op_usuarios == 1:
-            nome_usuario = input("\nQual o seu nome?...........: ")
+            nome_usuario = input("\nQual o seu nome?........................: ")
             while True:
-                idade = input("Qual a sua idade?.............: ")
-                if not idade.isdigit() or int(idade) < 18:
+                idade = input("Qual a sua idade?.......................: ")
+                if not idade.isdigit() or int(idade) < 18 or int(idade) > 99:
                     print("Insira uma idade válida.")
                     continue
                 else:
@@ -84,14 +84,14 @@ def cadastro_usuarios():
                 else:
                     break
             while True:
-                email = input("Qual o seu e-mail?: ")
+                email = input("Qual o seu e-mail?......................: ")
                 if re.match(regexEmail, email) is None:
                     print("Insira um e-mail válido.")
                     continue
                 else:
                     email.lower()
                     break
-            senha = input("Qual a senha a ser utilizada no Login?: ")
+            senha = input("Qual a senha a ser utilizada no Login?..: ")
             usuarios.append({'nome': nome_usuario, 'idade': idade, 'telefone': tel, 'email': email, 'senha': senha})
             print("\nUsuário cadastrado com sucesso!")
         elif op_usuarios == 2:
