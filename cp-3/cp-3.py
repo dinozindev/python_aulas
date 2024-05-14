@@ -1,7 +1,7 @@
 import re
 
-filmes = [{'titulo': "Carros", 'nome': "Carros", 'ano': 2006, 'sinopse': "Carros muito loucos em varios lugares loucos"}, {'titulo': "Avengers", 'nome': "Avengers", 'ano': 2010, 'sinopse': "Heróis muito loucos"}]
-usuarios = [{'nome': 'Lucas', 'idade': 19, 'telefone': '11 98923-3948', 'email': 'lucas@gmail.com', 'senha': 'Lucas0013'}]
+filmes = []
+usuarios = []
 regexTel = r'\d{2} 9\d{4}-\d{4}'
 regexEmail = r'^[\w\.-]+@[\w\.-]+\.\w+$'
 
@@ -121,7 +121,7 @@ def login_usuario():
             break
         for i in range(len(usuarios)):
             confirm = False
-            if usuarios[i]['email'] == email_login or usuarios[i]['senha'] == senha_login:
+            if usuarios[i]['email'] == email_login and usuarios[i]['senha'] == senha_login:
                 confirm = True
                 break
         if confirm == False:
@@ -132,8 +132,9 @@ def login_usuario():
 
 # função para abrir o menu com a lista de filmes.
 def menu_filmes():
+    print("\nUsuário autenticado.")
     while True:
-        print("\n=============[ LISTA FILMES ]=============\n")
+        print("\n=============[ LISTA DE FILMES ]=============\n")
         print("0 - Sair do sistema (voltar ao Menu Inicial)")
         for j in range(len(filmes)):
             print(f"{j+1} - {filmes[j]['nome']} - {filmes[j]['ano']}")
