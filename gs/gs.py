@@ -110,10 +110,15 @@ def gerenciar_usuario(usuarioDados):
                 print("Retornando ao menu do usuário...")
                 continue
 
+def relatar_pesca_irregular():
+   print("\nRelatório de pesca irregular...")
+     
+
 while True:
     print("\n==============[ MENU ]==============\n")
     print("1  - Cadastro Usuário")
     print("2  - Gerenciar Usuário")
+    print("3  - Relatar pesca irregular")
     print("0  - Sair\n")
     option = input("Opção: ")
     if not option.isdigit() or (int(option) > 10 or int(option) < 0):
@@ -128,3 +133,5 @@ while True:
             cadastro_usuario()
         case 2:
             gerenciar_usuario(usuarioDados)
+        case 3:
+            relatar_pesca_irregular()
