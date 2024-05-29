@@ -1,5 +1,7 @@
+# import 
 import re
 
+# definições
 filmes = []
 usuarios = []
 regexTel = r'\d{2} 9\d{4}-\d{4}'
@@ -21,8 +23,20 @@ def cadastro_filmes():
             print("Retornando ao menu inicial...")
             break
         elif op_filmes == 1:
-            titulo = input("\nQual o título do filme?...........: ")
-            nome = input("Qual o nome do filme?.............: ")
+            while True:
+                titulo = input("\nQual o título do filme?...........: ")
+                if titulo == '':
+                    print('Insira um título de filme válido.')
+                    continue
+                else: 
+                    break
+            while True:
+                genero = input("Qual o gênero do filme?...........: ")
+                if genero == '':
+                    print('Insira um gênero de filme válido.')
+                    continue
+                else:
+                    break
             while True:
                 ano = input("Qual o ano de lançamento do filme?: ")
                 if not ano.isdigit() or int(ano) > 2024 or int(ano) < 1895:
@@ -32,7 +46,7 @@ def cadastro_filmes():
                     ano = int(ano)
                     break
             sinopse = input("Qual a sinopse do filme?..........: ")
-            filmes.append({'titulo': titulo, 'nome': nome, 'ano': ano, 'sinopse': sinopse})
+            filmes.append({'titulo': titulo, 'genero': genero, 'ano': ano, 'sinopse': sinopse})
             print("\nFilme cadastrado com sucesso!")
         elif op_filmes == 2:
             while True: 
@@ -67,7 +81,13 @@ def cadastro_usuarios():
             print("Retornando ao menu inicial...")
             break
         elif op_usuarios == 1:
-            nome_usuario = input("\nQual o seu nome?........................: ")
+            while True:
+                nome_usuario = input("\nQual o seu nome?........................: ")
+                if nome_usuario == '':
+                    print("Insira um nome válido.")
+                    continue
+                else:
+                    break
             while True:
                 idade = input("Qual a sua idade?.......................: ")
                 if not idade.isdigit() or int(idade) < 18 or int(idade) > 99:
@@ -91,7 +111,13 @@ def cadastro_usuarios():
                 else:
                     email.lower()
                     break
-            senha = input("Qual a senha a ser utilizada no Login?..: ")
+            while True:
+                senha = input("Qual a senha a ser utilizada no Login?..: ")
+                if senha == '':
+                    print("Insira uma senha válida.")
+                    continue
+                else:
+                    break
             usuarios.append({'nome': nome_usuario, 'idade': idade, 'telefone': tel, 'email': email, 'senha': senha})
             print("\nUsuário cadastrado com sucesso!")
         elif op_usuarios == 2:
@@ -137,7 +163,7 @@ def menu_filmes():
         print("\n=============[ LISTA DE FILMES ]=============\n")
         print("0 - Sair do sistema (voltar ao Menu Inicial)")
         for j in range(len(filmes)):
-            print(f"{j+1} - {filmes[j]['nome']} - {filmes[j]['ano']}")
+            print(f"{j+1} - {filmes[j]['titulo']} - {filmes[j]['ano']}")
         op_filme = input("\nSelecione um filme para assistir: ")
         if not op_filme.isdigit() or int(op_filme) > (len(filmes)) or int(op_filme) < 0:
             print("\nSelecione uma opção válida.")
