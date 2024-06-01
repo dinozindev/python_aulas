@@ -5,6 +5,7 @@ organizacoes = [{'nome': 'Oceanos Mais Limpos', 'pontuacao': 1200}, {'nome': 'Ma
 tipos_poluicao = ['Plástico', 'Vazamento de óleo', 'Detritos de embarcações', 'Descarte de esgoto', 'Produtos químicos']
 oceanos = ['Oceano Índico', 'Oceano Antártico', 'Oceano Pacífico', 'Oceano Atlântico', 'Oceano Ártico']
 qtnd = ['Baixa', 'Média', 'Alta', 'Alarmante']
+tipos_pescas_ilegais = ['Pesca em Áreas Protegidas', 'Pesca de Espécies Protegidas', 'Uso de Equipamentos Proibidos', 'Pesca Fora de Temporada', 'Pesca Sem Licença', 'Captura Excedendo Limites de Quantidade', 'Descarte Ilegal', 'Pesca não declarada e não regulamentada']
 
 #lista de especies
 especies_marinhas = [
@@ -16,17 +17,20 @@ especies_marinhas = [
     {'nome': 'Polvo-gigante-do-pacífico','nome_cientifico': 'Enteroctopus dofleini','descricao': 'O polvo-gigante-do-pacífico é a maior espécie de polvo, encontrada no Oceano Pacífico Norte. É conhecido por sua inteligência e capacidade de camuflagem.','status_conservacao': 'Pouco Preocupante'},
     {'nome': 'Manati','nome_cientifico': 'Trichechus','descricao': 'O manati, também conhecido como peixe-boi, é um grande mamífero marinho herbívoro encontrado em águas costeiras e rios de regiões tropicais e subtropicais.','status_conservacao': 'Vulnerável'},
     {'nome': 'Cavalo-marinho','nome_cientifico': 'Hippocampus','descricao': 'O cavalo-marinho é um pequeno peixe marinho com uma aparência única que lembra um cavalo. É conhecido por suas caudas preênseis e a reprodução onde os machos carregam os ovos.','status_conservacao': 'Vulnerável'},
-    {'nome': 'Estrela-do-mar girassol','nome_cientifico': 'Pycnopodia helianthoides','descricao': 'A estrela-do-mar girassol é uma das maiores espécies de estrela-do-mar, encontrada no Pacífico Norte. Tem muitas pernas e é um predador eficiente.','status_conservacao': 'Em Perigo Crítico'},
+    {'nome': 'Estrela-do-mar girassol','nome_cientifico': 'Pycnopodia helianthoides','descricao': 'A estrela-do-mar girassol é uma das maiores espécies de estrela-do-mar, encontrada no Pacífico Norte. Tem muitas pernas e é um predador eficiente.','status_conservacao': 'Em Perigo'},
     {'nome': 'Raia-manta','nome_cientifico': 'Manta birostris','descricao': 'A raia-manta é uma das maiores espécies de raia, conhecida por sua grande envergadura e comportamento grácil. Habita águas tropicais e subtropicais.','status_conservacao': 'Vulnerável'}
 ]
 
 usuarioDados = []
 denunciaPesca = []
 denunciaPoluicao = []
+relatoEspecie = []
 regexCpf = r'^\d{3}\.\d{3}\.\d{3}-\d{2}$'
 regexTel = r'\d{2} 9\d{4}-\d{4}'
 regexNome = r"^[A-Za-zÀ-ÿ'\- ]+$"
 regexCoordenadas = r'^([-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)),\s*([-+]?(180(\.0+)?|(1[0-7]\d|[1-9]?\d)(\.\d+)?))$'
+regexHoras = r"^(?:[01]\d|2[0-3]):[0-5]\d$"
+regexData = r"^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])$"
 
 # cadastro do usuario
 def cadastro_usuario():
@@ -131,52 +135,55 @@ def gerenciar_usuario(usuarioDados):
                 print("Retornando ao menu do usuário...")
                 continue
 
+# denunciar pesca ilegal      
 def denunciar_pesca_ilegal():
     print("\nIniciando denúncia de pesca ilegal...")
     if usuarioDados == []:
         print("Você não está cadastrado. Irei te redirecionar para o menu...")
         return
     while True:
-        coordenadas = input("Digite as coordenadas (Ex: -45.12345, -123.12345): ")
+        print("\n==============[ TIPO DE PESCA ILEGAL ]==============\n")
+        for i in range(len(tipos_pescas_ilegais)):
+            print(f"{i} - {tipos_pescas_ilegais[i]}")
+        opt_pescas_ilegais = input("\nQual o tipo de pesca ilegal identificada?: ")
+        if not opt_pescas_ilegais.isdigit() or int(opt_pescas_ilegais) > 7 or int(opt_pescas_ilegais) < 0:
+            print("\nSelecione uma opção válida.")
+            continue
+        else:
+            opt_pescas_ilegais = int(opt_pescas_ilegais)
+            denunciaPesca.append(tipos_pescas_ilegais[opt_pescas_ilegais])
+            break
+    while True: 
+        horas = input("Que horas a pesca ilegal foi identificada? (ex: 13:30): ")
+        if re.match(regexHoras, horas) is None:
+            print("Digite um horário válido.")
+            continue
+        else:
+            denunciaPesca.append(horas)
+            break 
+    while True: 
+        data = input("Qual a data em que a pesca ilegal foi identificada? (ex: 07/06): ")
+        if re.match(regexData, data) is None:
+            print("Digite uma data válida.")
+            continue
+        else:
+            denunciaPesca.append(data)
+            break 
+    while True:
+        coordenadas = input("Quais as coordenadas?7 (Ex: -45.12345, -123.12345): ")
         if re.match(regexCoordenadas, coordenadas) is None:
             print("Digite um nome válido.")
             continue
         else:
-            denunciaPoluicao.append(coordenadas)
+            denunciaPesca.append(coordenadas)
             break
-    while True:
-        print("\n==============[ OCEANO ]==============\n")
-        for i in range(len(oceanos)):
-            print(f"{i} - {oceanos[i]}")
-        opt_oceano = input("\nEm qual oceano a poluição foi encontrada?: ")
-        if not opt_oceano.isdigit() or (int(opt_oceano) > 4) or int(opt_oceano) < 0:
-            print("\nSelecione uma opção válida.")
-            continue
-        else:
-            opt_oceano = int(opt_oceano)
-            denunciaPoluicao.append(oceanos[opt_oceano])
-            break
-    while True:
-        print("\n==============[ QUANTIDADE ]==============\n")
-        for i in range(len(qtnd)):
-            print(f"{i} - {qtnd[i]}")
-        opt_qtnd = input("\nQual o nível da quantidade encontrada?: ")
-        if not opt_qtnd.isdigit() or (int(opt_qtnd) > 3) or int(opt_qtnd) < 0:
-            print("\nSelecione uma opção válida.")
-            continue
-        else:
-            opt_qtnd = int(opt_qtnd)
-            denunciaPoluicao.append(qtnd[opt_qtnd])
-            break
-    while True:
-        coordenadas = input("Digite as coordenadas (Ex: -45.12345, -123.12345): ")
-        if re.match(regexCoordenadas, coordenadas) is None:
-            print("Digite um nome válido.")
-            continue
-        else:
-            denunciaPoluicao.append(coordenadas)
-            break
+    ponto_referencia = input('Qual o ponto de referência?: ')
+    denunciaPesca.append(ponto_referencia)
+    observacoes = input("Mais alguma observação sobre o ocorrido?: ")
+    denunciaPesca.append(observacoes)
+    print("\nDenúncia de pesca ilegal registrada com sucesso.")
 
+# denunciar poluição
 def denunciar_poluicao():
     print("\nIniciando denúncia de poluição...\n")
     if usuarioDados == []:
@@ -242,9 +249,31 @@ def pontuacao_organizacoes():
 
 # consulta especies
 def consultar_especies():
-
-
-
+    print("Iniciando consulta de espécie...")
+    while True:
+        print("\n==============[ ESPÉCIES ]==============\n")
+        for i in range(len(especies_marinhas)):
+            print(f"{i+1:<2d} - {especies_marinhas[i]['nome']}")
+        print("0  - Sair\n")
+        option_especies = input("Selecione uma espécie para consultar: ")
+        if not option_especies.isdigit() or (int(option_especies) > len(especies_marinhas) or int(option) < 0):
+            print("\nSelecione uma opção válida.")
+            continue
+        option_especies = int(option_especies)
+        if option_especies == 0:
+            print("\nRetornando ao menu principal...")
+            break
+        if 1 <= option_especies <= len(especies_marinhas):
+            while True:
+                i = option_especies - 1
+                print(f"\n==============[ {especies_marinhas[i]['nome']} ]==============\n")
+                print(f"Nome.................: {especies_marinhas[i]['nome']}")
+                print(f"Nome científico......: {especies_marinhas[i]['nome_cientifico']}")
+                print(f"Descrição............: {especies_marinhas[i]['descricao']}")
+                print(f"Status de Conservação: {especies_marinhas[i]['status_conservacao']}")
+                input("\nPressione a tecla ENTER para voltar ao menu de espécies: ")
+                break
+    
 # menu    
 while True:
     print("\n==============[ MENU ]==============\n")
