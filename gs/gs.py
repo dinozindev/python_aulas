@@ -5,7 +5,7 @@ organizacoes = [{'nome': 'Oceanos Mais Limpos', 'pontuacao': 1200}, {'nome': 'Ma
 tipos_poluicao = ['Plástico', 'Vazamento de óleo', 'Detritos de embarcações', 'Descarte de esgoto', 'Produtos químicos']
 oceanos = ['Oceano Índico', 'Oceano Antártico', 'Oceano Pacífico', 'Oceano Atlântico', 'Oceano Ártico']
 qtnd = ['Baixa', 'Média', 'Alta', 'Alarmante']
-tipos_pescas_ilegais = ['Pesca em Áreas Protegidas', 'Pesca de Espécies Protegidas', 'Uso de Equipamentos Proibidos', 'Pesca Fora de Temporada', 'Pesca Sem Licença', 'Captura Excedendo Limites de Quantidade', 'Descarte Ilegal', 'Pesca não declarada e não regulamentada']
+tipos_pescas_ilegais = ['Pesca em Áreas Protegidas', 'Pesca de Espécies Protegidas', 'Uso de Equipamentos Proibidos', 'Pesca Fora de Temporada', 'Pesca Sem Licença', 'Captura Excedendo Limites de Quantidade', 'Descarte Ilegal de Peixes', 'Pesca não declarada e não regulamentada']
 
 #lista de especies
 especies_marinhas = [
@@ -139,13 +139,16 @@ def gerenciar_usuario(usuarioDados):
 def denunciar_pesca_ilegal():
     print("\nIniciando denúncia de pesca ilegal...")
     if usuarioDados == []:
-        print("Você não está cadastrado. Irei te redirecionar para o menu...")
+        print("\nVocê não está cadastrado. Irei te redirecionar para o menu...")
+        return
+    elif denunciaPesca != []:
+        print("\nVocê já realizou uma denúncia. Irei te redirecionar para o menu...")
         return
     while True:
         print("\n==============[ TIPO DE PESCA ILEGAL ]==============\n")
         for i in range(len(tipos_pescas_ilegais)):
             print(f"{i} - {tipos_pescas_ilegais[i]}")
-        opt_pescas_ilegais = input("\nQual o tipo de pesca ilegal identificada?: ")
+        opt_pescas_ilegais = input("\nQual o tipo de pesca ilegal identificada?......................: ")
         if not opt_pescas_ilegais.isdigit() or int(opt_pescas_ilegais) > 7 or int(opt_pescas_ilegais) < 0:
             print("\nSelecione uma opção válida.")
             continue
@@ -154,7 +157,7 @@ def denunciar_pesca_ilegal():
             denunciaPesca.append(tipos_pescas_ilegais[opt_pescas_ilegais])
             break
     while True: 
-        horas = input("Que horas a pesca ilegal foi identificada? (ex: 13:30): ")
+        horas = input("Que horas a pesca ilegal foi identificada? (ex: 13:30).........: ")
         if re.match(regexHoras, horas) is None:
             print("Digite um horário válido.")
             continue
@@ -170,16 +173,16 @@ def denunciar_pesca_ilegal():
             denunciaPesca.append(data)
             break 
     while True:
-        coordenadas = input("Quais as coordenadas?7 (Ex: -45.12345, -123.12345): ")
+        coordenadas = input("Quais as coordenadas? (Ex: -45.12345, -123.12345)..............: ")
         if re.match(regexCoordenadas, coordenadas) is None:
             print("Digite um nome válido.")
             continue
         else:
             denunciaPesca.append(coordenadas)
             break
-    ponto_referencia = input('Qual o ponto de referência?: ')
+    ponto_referencia = input('Qual o ponto de referência?....................................: ')
     denunciaPesca.append(ponto_referencia)
-    observacoes = input("Mais alguma observação sobre o ocorrido?: ")
+    observacoes = input("Mais alguma observação sobre o ocorrido?.......................: ")
     denunciaPesca.append(observacoes)
     print("\nDenúncia de pesca ilegal registrada com sucesso.")
 
@@ -273,17 +276,125 @@ def consultar_especies():
                 print(f"Status de Conservação: {especies_marinhas[i]['status_conservacao']}")
                 input("\nPressione a tecla ENTER para voltar ao menu de espécies: ")
                 break
-    
+
+# gerenciar denuncia de pesca ilegal
+def gerenciar_denuncia_pesca():
+    print("\nIniciando gerenciamento de denúncias...")
+    while True:
+        if denunciaPesca == []:
+            print("Você não realizou nenhuma denúncia ainda. Retornando ao menu...")
+            break
+        print("\n==============[ GERENCIAMENTO DENÚNCIA DE PESCA ILEGAL ]==============\n")
+        print("1 - Remover denúncia de pesca ilegal")
+        print("2 - Visualizar informações da denúncia de pesca ilegal")
+        print("0 - Sair")
+        opt_gepesca = input("\nSelecione uma opção: ")
+        if not opt_gepesca.isdigit() or int(opt_gepesca) > 2 or int(opt_gepesca) < 0:
+            print("\nSelecione uma opção válida.")
+            continue
+        opt_gepesca = int(opt_gepesca)
+        match opt_gepesca:
+            case 0:
+                print("Retornando ao menu principal...")
+                break
+            case 1:
+                deletar_denuncia_pesca()
+                break
+            case 2:
+                print("\n==============[ INFORMAÇÕES DA DENÚNCIA DE PESCA ILEGAL ]==============\n") 
+                print(f"Tipo.........................: {denunciaPesca[0]}") 
+                print(f"Horário......................: {denunciaPesca[1]}") 
+                print(f"Data.........................: {denunciaPesca[2]}")
+                print(f"Coordenadas..................: {denunciaPesca[3]}")  
+                print(f"Ponto de referência..........: {denunciaPesca[4]}")
+                print(f"Observações adicionais.......: {denunciaPesca[5]}") 
+                input("\nPressione ENTER para voltar ao menu: ")
+                print("\nRetornando ao menu...")
+                continue
+
+# deletar denuncia de pesca ilegal
+def deletar_denuncia_pesca():
+    while True:
+        if not denunciaPesca:
+            print("\nVocê não fez nenhuma denúncia ainda.")
+            break
+        op_delete = input("\nDeseja realmente remover a denúncia feita? S ou N: ")
+        if op_delete.upper() != "S" and op_delete.upper() != "N":
+            print("\nDigite uma opção válida.")
+            continue
+        elif op_delete.upper() == "S":
+            denunciaPesca.clear()
+            print("\nDenúncia removida com sucesso.")
+            break
+        elif op_delete.upper() == "N":
+            print("\nA Denúncia não foi removida.")
+            break
+
+# gerenciar denuncia de poluição
+def gerenciar_denuncia_poluicao():
+    print("\nIniciando gerenciamento de denúncia de poluição...")
+    while True:
+        if denunciaPoluicao == []:
+            print("Você não realizou nenhuma denúncia ainda. Retornando ao menu...")
+            break
+        print("\n==============[ GERENCIAMENTO DENÚNCIA DE POLUIÇÃO ]==============\n")
+        print("1 - Remover denúncia de poluição")
+        print("2 - Visualizar informações da denúncia de poluição")
+        print("0 - Sair")
+        opt_gerpoluicao = input("\nSelecione uma opção: ")
+        if not opt_gerpoluicao.isdigit() or int(opt_gerpoluicao) > 2 or int(opt_gerpoluicao) < 0:
+            print("\nSelecione uma opção válida.")
+            continue
+        opt_gerpoluicao = int(opt_gerpoluicao)
+        match opt_gerpoluicao:
+            case 0:
+                print("Retornando ao menu principal...")
+                break
+            case 1:
+                deletar_denuncia_poluicao()
+                break
+            case 2:
+                print("\n==============[ INFORMAÇÕES DA DENÚNCIA DE POLUIÇÃO ]==============\n") 
+                print(f"Tipo de poluição...: {denunciaPoluicao[0]}") 
+                print(f"Oceano.............: {denunciaPoluicao[1]}") 
+                print(f"Quantidade.........: {denunciaPoluicao[2]}")
+                print(f"Coordenadas........: {denunciaPoluicao[3]}")  
+                print(f"Ponto de referência: {denunciaPoluicao[4]}")
+                input("\nPressione ENTER para voltar ao menu: ")
+                print("\nRetornando ao menu...")
+                continue
+            
+# deletar denuncia de poluição
+def deletar_denuncia_poluicao():
+    while True:
+        if not denunciaPoluicao:
+            print("\nVocê não fez nenhuma denúncia ainda.")
+            break
+        op_delete = input("\nDeseja realmente remover a denúncia feita? S ou N: ")
+        if op_delete.upper() != "S" and op_delete.upper() != "N":
+            print("\nDigite uma opção válida.")
+            continue
+        elif op_delete.upper() == "S":
+            denunciaPoluicao.clear()
+            print("\nDenúncia removida com sucesso.")
+            break
+        elif op_delete.upper() == "N":
+            print("\nA Denúncia não foi removida.")
+            break
+
+
+
 # menu    
 while True:
     print("\n==============[ MENU ]==============\n")
     print("1  - Cadastro Usuário")
     print("2  - Gerenciar Usuário")
     print("3  - Denunciar Pesca Ilegal")
-    print("4  - Denunciar Poluição")
-    print("5  - Relatar Espécie")
-    print("6  - Consultar Espécies")
-    print("7  - Visualizar pontuação das organizações")
+    print("4  - Gerenciar Denúncia de Pesca Ilegal") 
+    print("5  - Denunciar Poluição")
+    print("6  - Gerenciar Denúncia de Poluição") 
+    print("7  - Consultar Espécies")
+    print("8  - Visualizar pontuação das organizações")
     print("0  - Sair\n")
     option = input("Opção: ")
     if not option.isdigit() or (int(option) > 7 or int(option) < 0):
@@ -301,10 +412,12 @@ while True:
         case 3:
             denunciar_pesca_ilegal()
         case 4:
-            denunciar_poluicao()
+            gerenciar_denuncia_pesca(denunciaPesca)
         case 5:
-            print()
+            denunciar_poluicao()
         case 6:
-            consultar_especies()
+            gerenciar_denuncia_poluicao(denunciaPoluicao)
         case 7:
+            consultar_especies()
+        case 8:
             pontuacao_organizacoes()
