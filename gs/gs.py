@@ -18,13 +18,17 @@ especies_marinhas = [
     {'nome': 'Manati','nome_cientifico': 'Trichechus','descricao': 'O manati, também conhecido como peixe-boi, é um grande mamífero marinho herbívoro encontrado em águas costeiras e rios de regiões tropicais e subtropicais.','status_conservacao': 'Vulnerável'},
     {'nome': 'Cavalo-marinho','nome_cientifico': 'Hippocampus','descricao': 'O cavalo-marinho é um pequeno peixe marinho com uma aparência única que lembra um cavalo. É conhecido por suas caudas preênseis e a reprodução onde os machos carregam os ovos.','status_conservacao': 'Vulnerável'},
     {'nome': 'Estrela-do-mar girassol','nome_cientifico': 'Pycnopodia helianthoides','descricao': 'A estrela-do-mar girassol é uma das maiores espécies de estrela-do-mar, encontrada no Pacífico Norte. Tem muitas pernas e é um predador eficiente.','status_conservacao': 'Em Perigo'},
-    {'nome': 'Raia-manta','nome_cientifico': 'Manta birostris','descricao': 'A raia-manta é uma das maiores espécies de raia, conhecida por sua grande envergadura e comportamento grácil. Habita águas tropicais e subtropicais.','status_conservacao': 'Vulnerável'}
+    {'nome': 'Raia-manta','nome_cientifico': 'Manta birostris','descricao': 'A raia-manta é uma das maiores espécies de raia, conhecida por sua grande envergadura e comportamento grácil. Habita águas tropicais e subtropicais.','status_conservacao': 'Vulnerável'},
+    {'nome': 'Tartaruga-de-couro','nome_cientifico': 'Dermochelys coriacea','descricao': 'A tartaruga-de-couro é a maior das tartarugas marinhas, conhecida por sua carapaça distinta de couro em vez de placas ósseas. Habita oceanos tropicais e subtropicais.','status_conservacao': 'Vulnerável'},
+    {'nome': 'Coral-estaghorn','nome_cientifico': 'Acropora cervicornis','descricao': 'O coral-estaghorn é caracterizado por seus ramos longos e finos que se assemelham a chifres de cervos. Habita recifes de coral no Caribe.','status_conservacao': 'Em perigo crítico'},
+    {'nome': 'Vaquita','nome_cientifico': 'Phocoena sinus','descricao': 'A vaquita é a menor espécie de cetáceo e é encontrada apenas no norte do Golfo da Califórnia, no México.','status_conservacao': 'Criticamente em perigo'},
+    {'nome': 'Peixe-serra-longo','nome_cientifico': 'Pristis pristis','descricao': 'O peixe-serra-longo é um grande peixe de água salgada com um focinho serrilhado distinto. É encontrado em águas tropicais e subtropicais, mas suas populações têm diminuído drasticamente devido à pesca e à perda de habitat.','status_conservacao': 'Criticamente em perigo'},
+    {'nome': 'Boto-da-baía-de-Yangtze','nome_cientifico': 'Lipotes vexillifer','descricao': 'O boto-da-baía-de-Yangtze, também conhecido como baiji, é um golfinho de água doce nativo do rio Yangtze na China. É uma das espécies de cetáceos mais ameaçadas do mundo devido à poluição e à degradação do habitat.','status_conservacao': 'Criticamente em perigo'},   
 ]
 
 usuarioDados = []
 denunciaPesca = []
 denunciaPoluicao = []
-relatoEspecie = []
 regexCpf = r'^\d{3}\.\d{3}\.\d{3}-\d{2}$'
 regexTel = r'\d{2} 9\d{4}-\d{4}'
 regexNome = r"^[A-Za-zÀ-ÿ'\- ]+$"
@@ -119,21 +123,23 @@ def gerenciar_usuario(usuarioDados):
                 print("\nSelecione uma opção válida.")
                 continue
             verif_usuario_op = int(verif_usuario_op)
-            if verif_usuario_op == 0:
-                break
-            elif verif_usuario_op == 1:
-                deletar_usuario()
-                break
-            elif verif_usuario_op == 2:
-                print("\n==============[ INFORMAÇÕES DO USUÁRIO ]==============\n") 
-                print(f"Nome....: {usuarioDados[0]}") 
-                print(f"Idade...: {usuarioDados[1]}") 
-                print(f"CPF.....: {usuarioDados[2]}") 
-                print(f"Endereço: {usuarioDados[3]}") 
-                print(f"Telefone: {usuarioDados[4]}\n") 
-                input("Pressione ENTER para voltar ao menu: ")
-                print("Retornando ao menu do usuário...")
-                continue
+            match verif_usuario_op:
+                case 0:
+                    break
+                case 1:
+                    deletar_usuario()
+                    break
+                case 2:
+                    print("\n==============[ INFORMAÇÕES DO USUÁRIO ]==============\n") 
+                    print(f"Nome....: {usuarioDados[0]}") 
+                    print(f"Idade...: {usuarioDados[1]}") 
+                    print(f"CPF.....: {usuarioDados[2]}") 
+                    print(f"Endereço: {usuarioDados[3]}") 
+                    print(f"Telefone: {usuarioDados[4]}\n") 
+                    input("Pressione ENTER para voltar ao menu: ")
+                    print("Retornando ao menu do usuário...")
+                    continue
+                
 
 # denunciar pesca ilegal      
 def denunciar_pesca_ilegal():
@@ -191,6 +197,9 @@ def denunciar_poluicao():
     print("\nIniciando denúncia de poluição...\n")
     if usuarioDados == []:
         print("Você não está cadastrado. Irei te redirecionar para o menu...")
+        return
+    elif denunciaPoluicao != []:
+        print("Você já realizou uma denúncia. Irei te redirecionar para o menu...")
         return
     while True: 
         print("\n==============[ TIPO DE POLUIÇÃO ]==============\n")
@@ -252,7 +261,7 @@ def pontuacao_organizacoes():
 
 # consulta especies
 def consultar_especies():
-    print("Iniciando consulta de espécie...")
+    print("\nIniciando consulta de espécie...")
     while True:
         print("\n==============[ ESPÉCIES ]==============\n")
         for i in range(len(especies_marinhas)):
@@ -278,11 +287,11 @@ def consultar_especies():
                 break
 
 # gerenciar denuncia de pesca ilegal
-def gerenciar_denuncia_pesca():
-    print("\nIniciando gerenciamento de denúncias...")
+def gerenciar_denuncia_pesca(denunciaPesca):
+    print("\nIniciando gerenciamento de denúncia de pesca ilegal...")
     while True:
         if denunciaPesca == []:
-            print("Você não realizou nenhuma denúncia ainda. Retornando ao menu...")
+            print("\nVocê não realizou nenhuma denúncia ainda. Retornando ao menu...")
             break
         print("\n==============[ GERENCIAMENTO DENÚNCIA DE PESCA ILEGAL ]==============\n")
         print("1 - Remover denúncia de pesca ilegal")
@@ -331,11 +340,11 @@ def deletar_denuncia_pesca():
             break
 
 # gerenciar denuncia de poluição
-def gerenciar_denuncia_poluicao():
+def gerenciar_denuncia_poluicao(denunciaPoluicao):
     print("\nIniciando gerenciamento de denúncia de poluição...")
     while True:
         if denunciaPoluicao == []:
-            print("Você não realizou nenhuma denúncia ainda. Retornando ao menu...")
+            print("\nVocê não realizou nenhuma denúncia ainda. Retornando ao menu...")
             break
         print("\n==============[ GERENCIAMENTO DENÚNCIA DE POLUIÇÃO ]==============\n")
         print("1 - Remover denúncia de poluição")
@@ -363,7 +372,7 @@ def gerenciar_denuncia_poluicao():
                 input("\nPressione ENTER para voltar ao menu: ")
                 print("\nRetornando ao menu...")
                 continue
-            
+
 # deletar denuncia de poluição
 def deletar_denuncia_poluicao():
     while True:
@@ -382,8 +391,6 @@ def deletar_denuncia_poluicao():
             print("\nA Denúncia não foi removida.")
             break
 
-
-
 # menu    
 while True:
     print("\n==============[ MENU ]==============\n")
@@ -397,7 +404,7 @@ while True:
     print("8  - Visualizar pontuação das organizações")
     print("0  - Sair\n")
     option = input("Opção: ")
-    if not option.isdigit() or (int(option) > 7 or int(option) < 0):
+    if not option.isdigit() or (int(option) > 8 or int(option) < 0):
         print("\nSelecione uma opção válida.")
         continue
     option = int(option)   
