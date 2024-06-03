@@ -1,10 +1,16 @@
 import re;
 
+# lista de organizações
 organizacoes = [{'nome': 'Oceanos Mais Limpos', 'pontuacao': 1200}, {'nome': 'Mares Azuis', 'pontuacao': 1000}, {'nome': 'WaterEco', 'pontuacao': 800}, {'nome': 'OceansBy', 'pontuacao': 600}, {'nome': 'SustainableMarine', 'pontuacao': 400}]
+# tipos de poluição
 tipos_poluicao = ['Plástico', 'Vazamento de óleo', 'Detritos de embarcações', 'Descarte de esgoto', 'Produtos químicos']
+#oceanos
 oceanos = ['Oceano Índico', 'Oceano Antártico', 'Oceano Pacífico', 'Oceano Atlântico', 'Oceano Ártico']
+#quantidade de poluição
 qtnd = ['Baixa', 'Média', 'Alta', 'Alarmante']
+#tipos de pesca 
 tipos_pescas_ilegais = ['Pesca em Áreas Protegidas', 'Pesca de Espécies Protegidas', 'Uso de Equipamentos Proibidos', 'Pesca Fora de Temporada', 'Pesca Sem Licença', 'Captura Excedendo Limites de Quantidade', 'Descarte Ilegal de Peixes', 'Pesca não declarada e não regulamentada']
+#recompensas
 recompensas = [
     {'nome_recompensa': 'Desconto de 10% em serviços empresas parceiras', 'pontos_necessarios': 20},
     {'nome_recompensa': 'Reconhecimento de Espécies por imagem ilimitado por 7 dias', 'pontos_necessarios': 35},
@@ -12,7 +18,6 @@ recompensas = [
     {'nome_recompensa': 'Desconto de 45% em serviços empresas parceiras', 'pontos_necessarios': 70},
     {'nome_recompensa': 'Reconhecimento de Espécies por imagem ilimitado por 30 dias', 'pontos_necessarios': 120}
 ]
-
 #lista de especies
 especies_marinhas = [
     {'nome': 'Tartaruga-verde','nome_cientifico': 'Chelonia mydas','descricao': 'A tartaruga-verde é uma grande tartaruga marinha encontrada principalmente em mares tropicais e subtropicais. É herbívora e se alimenta principalmente de algas e ervas marinhas.','status_conservacao': 'Em Perigo'}, 
@@ -36,6 +41,7 @@ usuarioDados = []
 denunciasPesca = []
 denunciasPoluicao = []
 pontosUsuario = 0
+recompensas_reivindicadas = []
 regexCpf = r'^\d{3}\.\d{3}\.\d{3}-\d{2}$'
 regexTel = r'\d{2} 9\d{4}-\d{4}'
 regexNome = r"^[A-Za-zÀ-ÿ'\- ]+$"
@@ -102,7 +108,7 @@ def deletar_usuario():
         if not usuarioDados:
             print("\nVocê não está cadastrado ainda.")
             break
-        op_delete = input("\nDeseja realmente deletar o seu cadastro? S ou N (Todos os dados registrados, incluindo denúncias e pontos serão removidos): ")
+        op_delete = input("\nDeseja realmente deletar o seu cadastro? S ou N (Todos os dados registrados, incluindo denúncias, recompensas e pontos serão removidos): ")
         if op_delete.upper() != "S" and op_delete.upper() != "N":
             print("\nDigite uma opção válida.")
             continue
@@ -112,6 +118,7 @@ def deletar_usuario():
             denunciasPoluicao.clear()
             global pontosUsuario
             pontosUsuario = 0
+            recompensas_reivindicadas.clear()
             print("\nCadastro removido com sucesso.")
             break
         elif op_delete.upper() == "N":
@@ -237,7 +244,7 @@ def denunciar_poluicao():
         print("\n==============[ QUANTIDADE ]==============\n")
         for i in range(len(qtnd)):
             print(f"{i} - {qtnd[i]}")
-        opt_qtnd = input("\nQual o nível da quantidade encontrada?: ")
+        opt_qtnd = input("\nQual o nível da quantidade encontrada?...........: ")
         if not opt_qtnd.isdigit() or (int(opt_qtnd) > 3) or int(opt_qtnd) < 0:
             print("\nSelecione uma opção válida.")
             continue
@@ -253,7 +260,7 @@ def denunciar_poluicao():
         else:
             denuncia.append(coordenadas)
             break
-    ponto_referencia = input('Qual o ponto de referência?: ')
+    ponto_referencia = input('Qual o ponto de referência?......................: ')
     denuncia.append(ponto_referencia)
     adicionar_pontos(10)
     denunciasPoluicao.append(denuncia)
@@ -414,7 +421,7 @@ def deletar_denuncia_poluicao():
             print("\nDigite uma opção válida.")
             continue
         elif op_delete.upper() == "S":
-            denunciasPesca.pop(op_poluicao)
+            denunciasPoluicao.pop(op_poluicao)
             print("\nDenúncia removida com sucesso.")
             break
         elif op_delete.upper() == "N":
@@ -426,6 +433,51 @@ def adicionar_pontos(pontos):
     global pontosUsuario
     pontosUsuario += pontos
 
+# remover pontos da pontuação do usuário
+def remover_pontos(pontos):
+    global pontosUsuario
+    pontosUsuario -= pontos
+
+# seleção de recompensa
+def receber_recompensa():
+    while True:
+        print("\n==============[ RECOMPENSAS ]==============\n")
+        for i in range(len(recompensas)):
+            print(f"{i+1} - {recompensas[i]['nome_recompensa']} - {recompensas[i]['pontos_necessarios']} pontos")
+        print("0  - Sair")
+        opt_recompensa = input("\nQual recompensa deseja resgatar?: ")
+        if not opt_recompensa.isdigit() or (int(opt_recompensa) > len(recompensas) or int(opt_recompensa) < 0):
+            print("\nSelecione uma opção válida.")
+            continue
+        opt_recompensa = int(opt_recompensa)
+        if opt_recompensa == 0:
+            print("\nRetornando ao menu de recompensas...")
+            break
+        if 1 <= opt_recompensa <= len(recompensas):
+            opt_recompensa-=1
+        if recompensas[opt_recompensa]['pontos_necessarios'] > pontosUsuario:
+            print("\nVocê não possui pontos suficientes para reivindicar a recompensa.")
+            continue
+        elif recompensas[opt_recompensa] in recompensas_reivindicadas:
+            print("\nVocê já reivindicou essa recompensa.")
+            continue
+        else:
+            recompensas_reivindicadas.append(recompensas[opt_recompensa])
+            remover_pontos(recompensas[opt_recompensa]['pontos_necessarios'])
+            print("\nRecompensa reivindicada com sucesso.")
+            break
+
+#visualização das recompensas obtidas
+def visualizar_recompensas_recebidas():
+    if recompensas_reivindicadas == []:
+        print("\nVocê ainda não reivindicou nenhuma recompensa.")
+        return
+    print("\n==============[ RECOMPENSAS ATIVAS ]==============\n")
+    for i in range(len(recompensas_reivindicadas)):
+        print(f"- {recompensas_reivindicadas[i]['nome_recompensa']}")
+    input('\nPressione a tecla ENTER para retornar ao menu: ')
+    return
+        
 # consultar as recompensas
 def consultar_recompensas():
     print("\nIniciando consulta de recompensas de usuário...")
@@ -436,7 +488,7 @@ def consultar_recompensas():
         print("\n==============[ MENU RECOMPENSAS ]==============\n")
         print(f"Pontuação atual: {pontosUsuario}\n")
         print("1 - Receber recompensa")
-        print("2 - Visualizar recompensas reinvindicadas")
+        print("2 - Visualizar recompensas reivindicadas")
         print("0 - Sair")
         opt_rec = input('\nSelecione uma opção para continuar: ')
         if not opt_rec.isdigit() or (int(opt_rec) > 2 or int(opt_rec) < 0):
@@ -446,8 +498,11 @@ def consultar_recompensas():
         match opt_rec:
             case 0:
                 break
-
-
+            case 1:
+                receber_recompensa()
+            case 2:
+                visualizar_recompensas_recebidas()
+                
 # menu    
 while True:
     print("\n==============[ MENU ]==============\n")
