@@ -6,10 +6,10 @@ oceanos = ['Oceano Índico', 'Oceano Antártico', 'Oceano Pacífico', 'Oceano At
 qtnd = ['Baixa', 'Média', 'Alta', 'Alarmante']
 tipos_pescas_ilegais = ['Pesca em Áreas Protegidas', 'Pesca de Espécies Protegidas', 'Uso de Equipamentos Proibidos', 'Pesca Fora de Temporada', 'Pesca Sem Licença', 'Captura Excedendo Limites de Quantidade', 'Descarte Ilegal de Peixes', 'Pesca não declarada e não regulamentada']
 recompensas = [
-    {'nome_recompensa': 'Desconto de 10% em empresas parceiras', 'pontos_necessarios': 20},
+    {'nome_recompensa': 'Desconto de 10% em serviços empresas parceiras', 'pontos_necessarios': 20},
     {'nome_recompensa': 'Reconhecimento de Espécies por imagem ilimitado por 7 dias', 'pontos_necessarios': 35},
-    {'nome_recompensa': 'Desconto de 20% em empresas parceiras', 'pontos_necessarios': 40},
-    {'nome_recompensa': 'Desconto de 45% em empresas parceiras', 'pontos_necessarios': 70},
+    {'nome_recompensa': 'Desconto de 20% em serviços empresas parceiras', 'pontos_necessarios': 40},
+    {'nome_recompensa': 'Desconto de 45% em serviços empresas parceiras', 'pontos_necessarios': 70},
     {'nome_recompensa': 'Reconhecimento de Espécies por imagem ilimitado por 30 dias', 'pontos_necessarios': 120}
 ]
 
@@ -335,16 +335,24 @@ def gerenciar_denuncia_pesca(denunciaPesca):
 
 # deletar denuncia de pesca ilegal
 def deletar_denuncia_pesca():
+    if not denunciasPesca:
+        print("\nVocê não fez nenhuma denúncia ainda.")
+        return
     while True:
-        if not denunciasPesca:
-            print("\nVocê não fez nenhuma denúncia ainda.")
-            break
+        print("\n==============[ DELETAR DENÚNCIA DE PESCA ILEGAL ]==============\n")
+        for i in range(len(denunciasPesca)):
+            print(f"{i} - Denúncia {i+1}")
+        op_pesca = input("\nQual denúncia deseja remover?: ") 
+        if not op_pesca.isdigit() or (int(op_pesca) > (len(denunciasPesca) - 1) or int(op_pesca) < 0):
+            print("\nSelecione uma opção válida.")
+            continue
+        op_pesca = int(op_pesca)   
         op_delete = input("\nDeseja realmente remover a denúncia feita? S ou N: ")
         if op_delete.upper() != "S" and op_delete.upper() != "N":
             print("\nDigite uma opção válida.")
             continue
         elif op_delete.upper() == "S":
-            denunciasPesca.clear()
+            denunciasPesca.pop(op_pesca)
             print("\nDenúncia removida com sucesso.")
             break
         elif op_delete.upper() == "N":
@@ -389,26 +397,36 @@ def gerenciar_denuncia_poluicao(denunciaPoluicao):
 
 # deletar denuncia de poluição
 def deletar_denuncia_poluicao():
+    if not denunciasPoluicao:
+        print("\nVocê não fez nenhuma denúncia ainda.")
+        return
     while True:
-        if not denunciasPoluicao:
-            print("\nVocê não fez nenhuma denúncia ainda.")
-            break
+        print("\n==============[ DELETAR DENÚNCIA DE POLUIÇÃO ]==============\n")
+        for i in range(len(denunciasPoluicao)):
+            print(f"{i} - Denúncia {i+1}")
+        op_poluicao = input("\nQual denúncia deseja remover?: ") 
+        if not op_poluicao.isdigit() or (int(op_poluicao) > (len(denunciasPoluicao) - 1) or int(op_poluicao) < 0):
+            print("\nSelecione uma opção válida.")
+            continue
+        op_poluicao = int(op_poluicao)   
         op_delete = input("\nDeseja realmente remover a denúncia feita? S ou N: ")
         if op_delete.upper() != "S" and op_delete.upper() != "N":
             print("\nDigite uma opção válida.")
             continue
         elif op_delete.upper() == "S":
-            denunciasPoluicao.clear()
+            denunciasPesca.pop(op_poluicao)
             print("\nDenúncia removida com sucesso.")
             break
         elif op_delete.upper() == "N":
             print("\nA Denúncia não foi removida.")
             break
 
+# adicionar pontos a pontuação do usuário
 def adicionar_pontos(pontos):
     global pontosUsuario
     pontosUsuario += pontos
 
+# consultar as recompensas
 def consultar_recompensas():
     print("\nIniciando consulta de recompensas de usuário...")
     if usuarioDados == []:
@@ -429,15 +447,16 @@ def consultar_recompensas():
             case 0:
                 break
 
+
 # menu    
 while True:
     print("\n==============[ MENU ]==============\n")
     print("1  - Cadastro Usuário")
     print("2  - Gerenciar Usuário")
     print("3  - Denunciar Pesca Ilegal")
-    print("4  - Gerenciar Denúncia de Pesca Ilegal") 
+    print("4  - Gerenciar Denúncia(s) de Pesca Ilegal") 
     print("5  - Denunciar Poluição")
-    print("6  - Gerenciar Denúncia de Poluição") 
+    print("6  - Gerenciar Denúncia(s) de Poluição") 
     print("7  - Consultar Espécies")
     print("8  - Visualizar pontuação das organizações")
     print("9  - Consultar Recompensas de Usuário")
