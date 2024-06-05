@@ -1,3 +1,12 @@
+#Grupo Ecocean
+#Giovanna Revito Roz - RM558981
+#Kaian Gustavo de Oliveira Nascimento - RM558986
+#Lucas Kenji Kikuchi - RM554424
+
+#link para o video: https://youtu.be/KyvPwDbnGiQ?si=zsFUhr7EWfbzlnlM
+
+
+#importação do re
 import re;
 
 # lista de organizações
