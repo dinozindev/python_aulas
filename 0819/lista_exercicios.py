@@ -453,3 +453,5 @@ print(f"{round(converter_temperatura(37, 'Celsius'), 2)}F")
 
 print(f"{round(converter_temperatura(32, 'Fahrenheit'), 2)}C")
 
+
+
