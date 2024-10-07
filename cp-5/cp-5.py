@@ -96,8 +96,7 @@ def criar_usuario():
             dados = ler_json('pessoas.json')
             for usuario in dados:
                 if usuario['id'] == id:
-                    raise Exception("ID já cadastrado.")
-                    continue              
+                    raise Exception("ID já cadastrado.")             
         except Exception as e:
             print(f"Ocorreu um erro ao cadastrar ID: {e}")
         else:
