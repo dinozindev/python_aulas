@@ -156,7 +156,7 @@ def delete_filme(id):
     connection = get_db_connection()
     cursor = connection.cursor()
     
-    # Consulta SQL para deletar um produto por ID
+    # Consulta SQL para deletar um filme por ID
     cursor.execute("DELETE FROM FILMES WHERE id = :id", [id])
     
     connection.commit()  # Confirma a transação
